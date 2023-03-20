@@ -1,0 +1,53 @@
+Questions
+
+1) Who is writing the Rock Music (ArtistId, Name and Number of Songs) ?
+
+SELECT ar.ArtistId, ar.Name, count(*) As Songs
+FROM Artist ar
+JOIN Album al
+ON ar.ArtistId = al.ArtistId
+JOIN Track t
+ON t.AlbumId = al.AlbumId
+JOIN Genre g
+On g.GenreId = t.GenreId
+WHERE g.Name = 'Rock'
+GROUP by 1,2
+ORDER by 3 DESC
+Limit 10;
+
+2) Who are The Top 10 Best Selling Artists (ArtistId, Name and Total_Sales) ?
+
+SELECT ar.ArtistId As ID, ar.Name As Name,
+Sum(il.UnitPrice * il.Quantity) As Total_Sales
+FROM InvoiceLine il
+JOIN Track tr
+On tr.TrackId = il.TrackId
+JOIN Album al
+ON tr.AlbumId = al.AlbumId
+JOIN Artist ar
+On ar.ArtistId = al.ArtistId
+GROUP by ar.ArtistId
+ORDER by 3 DESC
+LIMIT 10;
+
+3) What are the Top 10 Playlists Played (PlaylistId, Name and Count of Playlists) ?
+
+SELECT p.PlaylistId, p.Name, count(p.Name) As No_of_Playlists
+FROM Playlist p
+JOIN PlaylistTrack pt
+ON  p.PlaylistId = pt.PlaylistId
+GROUP BY 1,2
+ORDER BY 3 DESC;
+
+4) Who are the Most Paying Customers (CustomerId, FirstName, Email and Total_Invoices) ?
+
+SELECT C.CustomerId, C.FirstName, C.Email, sum(total) As Total_Invoices
+FROM Customer C
+Join Invoice Inv
+On C.CustomerId = Inv.CustomerId
+GROUP by 1,2
+ORDER by 4 DESC
+LIMIT 10;
+
+
+
